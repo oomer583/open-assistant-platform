@@ -38,7 +38,9 @@ export async function POST(request: Request) {
   }
 
   try {
-    return NextResponse.json(await createModelReply(body.messages));
+    // Backend boş yanıtları hata olarak ele alır; başarılı API sözleşmesi daima string reply döndürür.
+    const { reply } = await createModelReply(body.messages);
+    return NextResponse.json({ reply });
   } catch (error) {
     if (error instanceof ChatServiceError) {
       return NextResponse.json(

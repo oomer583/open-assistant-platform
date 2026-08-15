@@ -44,13 +44,16 @@ export function Chat() {
 
       const data = (await response.json()) as { reply?: string; error?: string };
 
-      if (!response.ok || !data.reply) {
+      if (!response.ok) {
         throw new Error(data.error || "Sohbet isteği başarısız oldu.");
       }
 
+      // API beklenmedik biçimde reply alanını atsa bile Message.content daima string kalır.
+      const reply = data.reply ?? "Bir hata oluştu, lütfen tekrar deneyin.";
+
       setMessages((current) => [
         ...current,
-        { id: Date.now() + 1, role: "assistant", content: data.reply },
+        { id: Date.now() + 1, role: "assistant", content: reply },
       ]);
     } catch (error) {
       setMessages((current) => [
