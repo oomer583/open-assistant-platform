@@ -44,7 +44,11 @@ export async function POST(request: Request) {
   } catch (error) {
     if (error instanceof ChatServiceError) {
       return NextResponse.json(
-        { error: "Üzgünüm, model şu anda yanıt veremiyor. Lütfen biraz sonra tekrar deneyin." },
+        {
+          error: "Üzgünüm, model şu anda yanıt veremiyor. Lütfen biraz sonra tekrar deneyin.",
+          // GEÇİCİ: Geliştirme tamamlandığında sağlayıcı hata detayını response'tan kaldırın.
+          debug: error.message,
+        },
         { status: 502 },
       );
     }
